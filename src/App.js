@@ -49,11 +49,11 @@ export default class Game extends Component {
     this.state = {
       history: [
         {
-          squares: Array(3).fill(Array(3).fill(null))
-        }
+          squares: Array(3).fill(Array(3).fill(null)),
+        },
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
     };
   }
 
@@ -74,18 +74,18 @@ export default class Game extends Component {
     this.setState({
       history: history.concat([
         {
-          squares: squares
-        }
+          squares: squares,
+        },
       ]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      xIsNext: !this.state.xIsNext,
     });
   }
 
   jumpTo(step) {
     this.setState({
       stepNumber: step,
-      xIsNext: step % 2 === 0
+      xIsNext: step % 2 === 0,
     });
   }
   render() {
@@ -186,7 +186,7 @@ function BestMove(squares) {
 var scores = {
   X: -10,
   O: 10,
-  draw: 0
+  draw: 0,
 };
 
 function Minimax(squares, xIsNext, depth) {
@@ -201,7 +201,7 @@ function Minimax(squares, xIsNext, depth) {
         if (!squares[i][j]) {
           squares[i][j] = "O";
           bestScore = Math.max(
-            Minimax(squares, true, depth + 1) + depth,
+            Minimax(squares, true, depth + 1) + 1,
             bestScore
           );
           squares[i][j] = null;
@@ -215,10 +215,7 @@ function Minimax(squares, xIsNext, depth) {
       for (let j = 0; j < 3; j++) {
         if (!squares[i][j]) {
           squares[i][j] = "X";
-          bestScore = Math.min(
-            Minimax(squares, false, depth + 1) + depth,
-            bestScore
-          );
+          bestScore = Math.min(Minimax(squares, false, depth + 1), bestScore);
           squares[i][j] = null;
         }
       }
